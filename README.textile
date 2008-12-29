@@ -1,0 +1,51 @@
+h1. Transfigr
+
+A simple, pluggable plugin to transfigure between markup languages.  
+
+h2. Example
+
+<pre><code>
+  Transfigr.format!(:textile, "h1. I am a textile string")
+  Transfigr.format!(:markdown, "I _am_ a markdown string")
+</code></pre>
+
+h2. Pluggable Back End
+
+The architecture is pluggable so that you can add your own custom formatters.
+
+By default there are currently:
+
+* :textile - Via RedCloth (you need to install redcloth)
+* :markdown - Via RDiscount or as a fallback Bluecloth.  RDiscount is much faster http://tomayko.com/writings/ruby-markdown-libraries-real-cheap-for-you-two-for-price-of-one
+
+h3. Make your own store
+
+To make your own store is really simple.  Lets look at the textile one.
+
+<pre><code>
+  module Transfigr
+    class TextileFormatter < Formatter
+      format_as :textile
+
+      after_activation do
+        require 'redcloth'
+      end
+
+      def self.format!(string)
+        RedCloth.new(string).to_html
+      end
+    end
+  end
+</code></pre>
+
+Inheriting from Transfigr::Formatter makes it a formatter for use with Transfigr.
+
+The @format_as@ call sets up the label you'd like to refer to it as when you're using it. 
+
+The @after_activation@ block is called when the formatter is activated.  It is a good place to put 
+any dependencies the formatter may require.
+
+The @self.format!(string)@ method is the work horse.  This is the method that is called to actually transform
+a string to the new format.  
+
+That's basically it.
