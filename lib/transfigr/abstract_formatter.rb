@@ -1,13 +1,18 @@
 module Transfigr
   # Transfigr::Formatter is the base class to inherit from when developing your own formatters
   class Formatter
+    attr_accessor :target
+    
+    def initialize(target)
+      @target = target
+    end
     
     # This is where the work is done in formatting.
     # This method recieves a string to transform, and shoul
     # format the result
     # :api: overwritable
-    def self.format!(string)
-      raise NoMethodError, "You have not defined the format! method for the #{self.name} Formatter"
+    def format!
+      raise NoMethodError, "You have not defined the format! method for the #{self.class.name} Formatter"
     end
   
     # This method allows you to register the formatter.  This label will be used when 

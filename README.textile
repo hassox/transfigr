@@ -31,14 +31,16 @@ To make your own store is really simple.  Lets look at the textile one.
         require 'redcloth'
       end
 
-      def self.format!(string)
-        RedCloth.new(string).to_html
+      def format!
+        RedCloth.new(target).to_html
       end
     end
   end
 </code></pre>
 
-Inheriting from Transfigr::Formatter makes it a formatter for use with Transfigr.
+Inheriting from Transfigr::Formatter makes it a formatter for use with Transfigr.  
+
+The object to transfigure is provided via the @target@ accessor
 
 The @format_as@ call sets up the label you'd like to refer to it as when you're using it. 
 

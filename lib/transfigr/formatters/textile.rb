@@ -5,9 +5,9 @@ module Transfigr
     after_activation do
       require 'redcloth'
     end
-    
-    def self.format!(string)
-      RedCloth.new(string).to_html
+      
+    def format!
+      RedCloth.new(target).to_html
     end
   end
 end

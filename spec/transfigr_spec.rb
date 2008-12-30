@@ -57,8 +57,8 @@ describe "transfigr" do
   it "should format a string with the provided fromatter" do
     class Foo9Formatter < Transfigr::Formatter
       format_as :foo9
-      def self.format!(string)
-        ":foo9 - #{string}"
+      def format!
+        ":foo9 - #{target}"
       end
     end
     Transfigr.activate!(:foo9)

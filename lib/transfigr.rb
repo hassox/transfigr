@@ -2,16 +2,17 @@ require 'rubygems'
 
 module Transfigr
   class << self
-    # Use the format method to format a string via a given formatter
+    # Use the format method to format an object via a given formatter
+    # Normally this would be a string, but it could be anything.
     # 
     # Example: 
     #   
     #   Transfigr.format!(:textile, "h1. I'm a textile string")
     #
     # :api: public
-    def format!(format, string)
+    def format!(format, object)
       raise "#{format.inspect} is not an active format" unless active?(format)
-      self[format].format!(string)
+      self[format].new(object).format!
     end
   
     # Activate formatters that you want to actually use.  This 

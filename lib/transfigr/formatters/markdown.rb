@@ -11,8 +11,8 @@ module Transfigr
       end
     end
     
-    def self.format!(string)
-      BlueCloth.new(string).to_html
+    def format!
+      BlueCloth.new(target).to_html
     end
   end
 end
