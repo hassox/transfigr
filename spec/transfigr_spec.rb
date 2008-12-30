@@ -63,5 +63,6 @@ describe "transfigr" do
     end
     Transfigr.activate!(:foo9)
     Transfigr.format!(:foo9, "foobar").should == ":foo9 - foobar"
+    Transfigr.format!("foo9", "bazbar").should == ":foo9 - bazbar"
   end
 end

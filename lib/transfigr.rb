@@ -10,7 +10,7 @@ module Transfigr
     #
     # :api: public
     def format!(format, string)
-      activate!(format) unless active?(format)
+      raise "#{format.inspect} is not an active format" unless active?(format)
       self[format].format!(string)
     end
   
@@ -22,9 +22,9 @@ module Transfigr
     # :api: public
     def activate!(*args)
       args.each do |f|
-        fmtr = formatters.detect{|fmt| fmt.format_as == f}
+        fmtr = formatters.detect{|fmt| fmt.format_as.to_s == f.to_s}
         raise "No Formatter found for format #{f.inspect}" unless fmtr
-        _active_formats[f] = fmtr
+        _active_formats[f.to_s] = fmtr
         fmtr.after_activation.call if fmtr.after_activation
       end
     end
@@ -38,7 +38,7 @@ module Transfigr
     # Check to see if a format has been activated
     # :api: public
     def active?(format)
-      !!_active_formats[format]
+      !!_active_formats[format.to_s]
     end
     
     protected
@@ -52,7 +52,7 @@ module Transfigr
     # Provides access to the formatter
     # :api: private
     def [](formatter)
-      _active_formats[formatter]
+      _active_formats[formatter.to_s]
     end
     
     # A hash of active formats with the format_as as the key, and the class as the value
