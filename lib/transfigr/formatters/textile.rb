@@ -1,13 +1,9 @@
-module Transfigr
-  class TextileFormatter < Formatter
-    format_as :textile
+Transfigr.add(:textile) do
+  after_activation do
+    require 'redcloth'
+  end
     
-    after_activation do
-      require 'redcloth'
-    end
-      
-    def format!
-      RedCloth.new(target).to_html
-    end
+  def format!(opts = {})
+    RedCloth.new(target).to_html
   end
 end
