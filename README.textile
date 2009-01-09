@@ -1,6 +1,8 @@
 h1. Transfigr
 
-A simple, pluggable plugin to transfigure between markup languages.  
+A simple, pluggable plugin to transfigure an object into a format.  
+It can be used as a simple markup transfigurer, i.e. textile or markdown.
+It can also be used as a general purpose presenter if you define it as such. 
 
 h2. Example
 
@@ -8,6 +10,16 @@ h2. Example
   Transfigr.format!(:textile, "h1. I am a textile string")
   Transfigr.format!(:markdown, "I _am_ a markdown string")
 </code></pre>
+
+h2. Using it as a Presenter
+
+<pre><code>
+  Transfigr.presenter(@article).to_xml # requires an :xml format be setup
+</code></pre>
+
+This is especially useful when using something like Merb's display method
+
+All _active_ formats have a method added to the presenter @to_<format>@
 
 h2. Pluggable Back End
 
@@ -23,31 +35,37 @@ h3. Make your own store
 To make your own store is really simple.  Lets look at the textile one.
 
 <pre><code>
-  module Transfigr
-    class TextileFormatter < Formatter
-      format_as :textile
-
+  Transfigr.add(:textile)
       after_activation do
         require 'redcloth'
       end
 
-      def format!
+      def format!(options = {})
         RedCloth.new(target).to_html
       end
     end
   end
 </code></pre>
 
-Inheriting from Transfigr::Formatter makes it a formatter for use with Transfigr.  
+You can define any helpers inline.  You can also @edit@ existing formats.  
+Replace formats by simply adding a new one with the same name.
 
-The object to transfigure is provided via the @target@ accessor
+The @after_activation@ block in the add methodis called when the formatter is activated.  
+It is a good place to put any dependencies the formatter may require.
 
-The @format_as@ call sets up the label you'd like to refer to it as when you're using it. 
-
-The @after_activation@ block is called when the formatter is activated.  It is a good place to put 
-any dependencies the formatter may require.
-
-The @self.format!(string)@ method is the work horse.  This is the method that is called to actually transform
+The @format!(options = {})@ method is the work horse.  This is the method that is called to actually transform
 a string to the new format.  
+
+h3. Activation
+
+You must activate a format in order to use it.  
+It is not secure to simply automatically load them.
+
+You can activate existing formats like this:
+<pre><code>
+  Transfigr.activate!(:textile, :markdown, :xml, :html, :pdf, :foo)
+</code></pre>
+
+You must have these formats defined.  Check like @Transfigr.defined?(:foo)@
 
 That's basically it.
