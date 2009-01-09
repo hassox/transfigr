@@ -32,7 +32,7 @@ By default there are currently:
 
 h3. Make your own store
 
-To make your own store is really simple.  Lets look at the textile one.
+To define your own format is really simple.  Lets look at the textile one.
 
 <pre><code>
   Transfigr.add(:textile)
