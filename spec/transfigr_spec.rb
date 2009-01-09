@@ -116,5 +116,4 @@ describe "transfigr" do
     Transfigr.add(:to_be_defined){ def format!(o); :foo; end }
     Transfigr.should be_defined(:to_be_defined)
   end
-  
 end

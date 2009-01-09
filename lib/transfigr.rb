@@ -29,6 +29,7 @@ module Transfigr
         fmtr = formatters[f]
         raise "No Formatter found for format #{f.inspect}" unless fmtr
         _active_formats[f.to_s] = f
+        Presenter.add_format!(f)
         fmtr.after_activation.call if fmtr.after_activation
         true
       end
@@ -40,6 +41,7 @@ module Transfigr
     def deactivate!(*args)
       args.each do |f|
         _active_formats.delete(f.to_s)
+        Presenter.remove_format!(f)
       end
     end
     
@@ -119,6 +121,7 @@ module Transfigr
 end # Transfigr
 
 $:.unshift File.dirname(__FILE__)
+require 'transfigr/presenter'
 require 'transfigr/abstract_formatter'
 require 'transfigr/formatters/markdown'
 require 'transfigr/formatters/textile'
