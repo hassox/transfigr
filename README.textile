@@ -11,15 +11,46 @@ h2. Example
   Transfigr.format!(:markdown, "I _am_ a markdown string")
 </code></pre>
 
+h3. Using options
+You can configure your formatters to take an options hash to customize
+the format based on options.
+
+<pre><code>
+  Transfigr.add(:xml) do
+    def format!(opts)
+      target.to_xml(opts)
+    end
+  end
+  
+  Transfigr.format!(:xml, @person_list, :fields => [:name, :age])
+</code></pre>
+
+This is especially useful when using it as a presenter in merb.
+
 h2. Using it as a Presenter
 
 <pre><code>
   Transfigr.presenter(@article).to_xml # requires an :xml format be setup
 </code></pre>
 
-This is especially useful when using something like Merb's display method
+This is especially useful when using something like Merb's display method.  
 
 All _active_ formats have a method added to the presenter @to_<format>@
+  
+h3. Options in the presenter.
+
+Sometimes you need to customize the format of an object based on 
+the current environment or state of the application.
+
+Transfigr presenters allow options to be passed into the format! method.
+
+As an example, in merb you may use:
+
+<pre><code>
+  display Transfigr.presenter(@user, :fields => [:name, :age])
+</code></pre>
+
+When you define the formats, you can make use of any options passed it.
 
 h2. Pluggable Back End
 

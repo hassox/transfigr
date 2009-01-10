@@ -47,7 +47,10 @@ module Transfigr
     
     # :api: overwritable
     def method_missing(name, *rest)
-      raise FormatterNotFound, "No active #{name.inspect} format was found" if name.to_s =~ /^to_/
+      if name.to_s =~ /^to_/
+        return target.send(name) if target.respond_to?(name)
+        raise FormatterNotFound, "No active #{name.inspect} format was found" 
+      end
       super
     end
     
