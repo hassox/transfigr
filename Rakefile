@@ -3,7 +3,7 @@ require 'rake/gempackagetask'
 require "spec/rake/spectask"
 
 GEM_NAME = "transfigr"
-GEM_VERSION = "0.0.1"
+GEM_VERSION = "0.1.0"
 AUTHOR = "Daniel Neighman"
 EMAIL = "has.sox@gmail.com"
 HOMEPAGE = "http://rubunity.com"
