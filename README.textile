@@ -61,7 +61,7 @@ By default there are currently:
 * :textile - Via RedCloth (you need to install redcloth)
 * :markdown - Via RDiscount or as a fallback Bluecloth.  RDiscount is much faster http://tomayko.com/writings/ruby-markdown-libraries-real-cheap-for-you-two-for-price-of-one
 
-h3. Make your own store
+h3. Make your own Formatter
 
 To define your own format is really simple.  Lets look at the textile one.
 
